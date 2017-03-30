@@ -1,7 +1,7 @@
 <?php
 namespace JobBoard;
 
-class User
+class JobPostController
 {
 
 }
