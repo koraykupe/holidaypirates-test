@@ -50,14 +50,12 @@ class PostJobOffer extends Connection implements Subject {
 
         try {
             $queryBuilder->execute();
+            // Call Email Notifier
+            $this->notify();
         } catch (PDOException $exception) {
-            
+            return false;
         }
 
-
-        // Call Email Notifier
-        $this->notify();
-
-        var_dump($queryBuilder);
+        return true;
     }
 }
