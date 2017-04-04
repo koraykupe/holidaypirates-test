@@ -1,13 +1,4 @@
-<?php
-// $job = new \JobBoard\Job("asd"," asd", "adsa");
-// print_r($job->create());
+<?php declare(strict_types = 1);
 
-$connection = new \JobBoard\DB\Connection();
-$job = new \JobBoard\Job("aa", "ss", "assd", 1);
-$jobOffer = new \JobBoard\Observer\PostJobOffer();
-$jobOffer->create($job);
-
-/*
-$postJob = new \JobBoard\Observer\PostJobOffer();
-$postJob->attach(new \JobBoard\Observer\EmailNotifier());
-$postJob->create(); */
+require_once  __DIR__ .'/../vendor/autoload.php';
+require_once  __DIR__ .'/../src/bootstrap.php';

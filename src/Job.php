@@ -16,7 +16,7 @@ class Job extends Connection
      * @param $description
      * @param $email
      */
-    public function __construct($title, $description, $email, int $status)
+    public function __construct($title, $description, $email, int $status=0)
     {
         $this->title = $title;
         $this->description = $description;

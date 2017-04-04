@@ -2,22 +2,26 @@
 
 use PHPUnit\Framework\TestCase;
 
-class JobPostTest extends TestCase
+class JobTest extends TestCase
 {
     /** @test */
     public function status_is_pending_for_first_job_post()
     {
-        $jobPost = new JobPost(
+        $job = new \JobBoard\Job(
             "PHP developer",
             "We are looking for a PHP developer who has professional experience on PHP and MySQL at least 5 years.",
             "hr@holiday-pirates.com"
         );
+
+        $jobOffer = new \JobBoard\Observer\PostJobOffer();
+        $jobOffer->create($job);
+
     }
 
     /** @test */
     public function status_is_published_for_first_job_post()
     {
-        $jobPost = new JobPost(
+        $job = new \JobBoard\Job(
             "PHP developer",
             "We are looking for a PHP developer who has professional experience on PHP and MySQL at least 5 years.",
             "hr@holiday-pirates.com"
