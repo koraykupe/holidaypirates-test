@@ -1,5 +1,5 @@
 <?php
-namespace JobBoard;
+namespace JobBoard\Controllers;
 
 class ModeratorController
 {
