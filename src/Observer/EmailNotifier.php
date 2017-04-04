@@ -28,12 +28,9 @@ class EmailNotifier implements Observer
         $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
         if(!$mail->send()) {
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
+            return false;
         } else {
-            echo 'Message has been sent';
+            return true;
         }
-
-        // Send email here
-        var_dump('Mail sent');
     }
 }
