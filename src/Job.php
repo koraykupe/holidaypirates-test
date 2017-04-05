@@ -3,7 +3,7 @@ namespace JobBoard;
 
 use JobBoard\DB\Connection;
 
-class Job extends Connection
+class Job
 {
     public $title;
     public $description;
@@ -22,7 +22,5 @@ class Job extends Connection
         $this->description = $description;
         $this->email = $email;
         $this->status = $status;
-
-        parent::__construct();
     }
 }

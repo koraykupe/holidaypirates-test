@@ -8,6 +8,7 @@ use JobBoard\Job;
 class PostJobOffer extends Connection implements Subject {
 
     protected $observers = [];
+    protected $connection;
 
     public function attach(Observer $observer)
     {
@@ -30,7 +31,7 @@ class PostJobOffer extends Connection implements Subject {
 
     public function create(Job $job)
     {
-        $dbh = $this->connect();
+        $dbh = $this->connection;
         $queryBuilder = $dbh->createQueryBuilder();
 
         $queryBuilder

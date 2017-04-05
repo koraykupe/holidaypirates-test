@@ -17,35 +17,20 @@ if ($environment !== 'production') {
 }
 $whoops->register();
 
-// Register HTTP component - Request
-use Symfony\Component\HttpFoundation\Request;
+/*
+ * Dependency Injection
+ */
+$injector = include('Dependencies.php');
 
-$request = Request::createFromGlobals();
+$request = $injector->make('Symfony\Component\HttpFoundation\Request');
+$response = $injector->make('Symfony\Component\HttpFoundation\Response');
 
-// Register HTTP component - Response
-use Symfony\Component\HttpFoundation\Response;
+$request = $request::createFromGlobals();
 
-$response = new Response(
-    'Content',
-    Response::HTTP_OK,
-    array('content-type' => 'text/html')
-);
-
-$connection = new \JobBoard\DB\Connection();
-$job = new \JobBoard\Job("aa", "ss", "assd", 1);
-$jobOffer = new \JobBoard\Observer\PostJobOffer();
-$jobOffer->attach(new \JobBoard\Observer\EmailNotifier());
-$jobOffer->create($job);
-
-$content = "";
-if ($jobOffer)
-    $content .= "Job offer created successfully";
-
-$response->setContent($content);
-
-// echo $response->getContent();
-
-// Routes
+/**
+ * Routes
+ * @param \FastRoute\RouteCollector $r
+ */
 $routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
     $routes = include('Routes.php');
     foreach ($routes as $route) {
@@ -55,7 +40,8 @@ $routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
 
 $dispatcher = \FastRoute\simpleDispatcher($routeDefinitionCallback);
 
-$routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getPath());
+$routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getPathInfo());
+
 switch ($routeInfo[0]) {
     case \FastRoute\Dispatcher::NOT_FOUND:
         $response->setContent('404 - Page not found');
@@ -70,28 +56,9 @@ switch ($routeInfo[0]) {
         $method = $routeInfo[1][1];
         $vars = $routeInfo[2];
 
-        $class = new $className;
+        $class = $injector->make($className);
         $class->$method($vars);
         break;
 }
 
-
-
-
-
-
-
-
-// $job = new \JobBoard\Job("asd"," asd", "adsa");
-// print_r($job->create());
-
-$connection = new \JobBoard\DB\Connection();
-$job = new \JobBoard\Job("aa", "ss", "assd", 1);
-$jobOffer = new \JobBoard\Observer\PostJobOffer();
-$jobOffer->attach(new \JobBoard\Observer\EmailNotifier());
-$jobOffer->create($job);
-
-/*
-$postJob = new \JobBoard\Observer\PostJobOffer();
-$postJob->attach(new \JobBoard\Observer\EmailNotifier());
-$postJob->create(); */
+echo $response->getContent();
