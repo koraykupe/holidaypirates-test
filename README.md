@@ -39,17 +39,10 @@ End with an example of getting some data out of the system or using it for a lit
 
 Explain how to run the automated tests for this system
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
 ### And coding style tests
 
-You can use Codesniffer to check the code against some standards
+I used PSR1/2 code styles and PSR4 for namespaces.
+You can use Codesniffer to check the code against some standards.
 
 ```
 phpcs /path/to/code
@@ -58,6 +51,10 @@ phpcs /path/to/code
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
+
+## Todo
+
+Abstraction for connection
 
 ## Built With
 

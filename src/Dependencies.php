@@ -36,4 +36,7 @@ $injector->delegate('Twig_Environment', function () use ($injector) {
 $injector->alias('JobBoard\Validation\Validator', 'JobBoard\Validation\SymfonyValidator');
 $injector->alias('JobBoard\Validation\Constraints\Email', 'JobBoard\Validation\SymfonyValidator');
 
+// Auth
+$injector->alias('JobBoard\Auth\Auth', 'JobBoard\Auth\BasicAuth');
+
 return $injector;

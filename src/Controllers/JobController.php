@@ -9,6 +9,12 @@ class JobController extends AbstractController
 {
     public function showForm()
     {
+        $credentials = [
+            'username'    => 'john.doe@example.com',
+            'password' => 'password',
+            'is_manager' => 1,
+        ];
+        $this->auth->register($credentials);
         $html = $this->renderer->render('JobForm');
         $this->response->setContent($html);
     }
@@ -20,24 +26,20 @@ class JobController extends AbstractController
         $description = $this->request->get('description');
         $email = $this->request->get('email');
 
-        // Validate the input
-
         // Create job instance
         $job = new Job($title, $description, $email, 1);
 
+        // Validate the input
         $validator = $this->validator
             ->addMethodMapping('loadValidatorMetadata')
             ->getValidator();
 
         $violations = $validator->validate($job);
         if (count($violations) > 0) {
-
-            // var_dump($violations); exit;
             $errorMessages = array();
             foreach ($violations as $violation) {
                 $errorMessages[] = $violation->getMessage();
             }
-
             $data = [
                 'errors' => $errorMessages
             ];
@@ -45,7 +47,6 @@ class JobController extends AbstractController
             $this->response->setContent($html);
             return;
         }
-
 
         // Create JobOffer instance and attach email notifier event to it
         $jobOffer = new PostJobOffer();
