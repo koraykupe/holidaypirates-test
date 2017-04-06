@@ -8,9 +8,16 @@ class JobController extends AbstractController
         $job = new \JobBoard\Job("aa", "ss", "assd", 1);
         $jobOffer = new \JobBoard\Observer\PostJobOffer();
         $jobOffer->attach(new \JobBoard\Observer\EmailNotifier());
+
+        $data = "";
         if ($jobOffer->create($job)) {
-            $this->response->setContent('Job offer was saved.');
+            $data = [
+                'message' => 'Job offer was saved'
+            ];
         }
+
+        $html = $this->renderer->render('Result: {{message}}', $data);
+        $this->response->setContent($html);
     }
 
 }

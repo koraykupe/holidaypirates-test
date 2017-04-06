@@ -2,6 +2,10 @@
 
 $injector = new \Auryn\Injector;
 
+/*
+ * We can define dependencies in this page.
+ */
+
 // Singleton - DB Connection
 $injector->share('JobBoard\DB\Connection');
 
@@ -18,6 +22,11 @@ $injector->define('Symfony\Component\HttpFoundation\Response', [
     ':status' => \Symfony\Component\HttpFoundation\Response::HTTP_OK,
     ':headers' => array('content-type' => 'text/html'),
 ]);
+
+// Mustache Renderer for Templating
+$injector->alias('JobBoard\Template\Renderer', 'JobBoard\Template\MustacheRenderer');
+
+
 
 // $injector->make('JobController');
 
