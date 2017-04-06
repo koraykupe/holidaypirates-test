@@ -2,5 +2,5 @@
 
 return [
     ['GET', '/job/add', ['JobBoard\Controllers\JobController', 'showForm']],
-    ['POST', '/job/add', ['JobBoard\Controllers\JobController', 'addJob']],
+    ['POST', '/job/add', ['JobBoard\Controllers\JobController', 'postJobForm']],
 ];

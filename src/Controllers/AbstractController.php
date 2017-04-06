@@ -1,10 +1,9 @@
 <?php
 
-
 namespace JobBoard\Controllers;
 
-use JobBoard\DB\Connection;
 use JobBoard\Template\Renderer;
+use JobBoard\Validation\Validator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,10 +13,11 @@ abstract class AbstractController
     protected $response;
     protected $renderer;
 
-    public function __construct(Request $request, Response $response, Renderer $renderer)
+    public function __construct(Request $request, Response $response, Renderer $renderer, Validator $validator)
     {
-        $this->request = $request;
+        $this->request = $request::createFromGlobals();
         $this->response = $response;
         $this->renderer = $renderer;
+        $this->validator = $validator;
     }
 }

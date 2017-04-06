@@ -1,0 +1,29 @@
+{% extends "Layout.html" %}
+{% block content %}
+
+{% if message %}
+<div class="alert alert-success">{{ message }}</div>
+{% endif %}
+
+{% if errors %}
+<div class="alert alert-error">
+    <ul>
+        {% for error in errors %}
+        <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<h1>Add Job Offer</h1>
+<form class="pure-form" method="post">
+    <fieldset class="pure-group">
+        <input type="text" class="pure-input-1" name="title" placeholder="Title">
+        <textarea class="pure-input-1" name="description" placeholder="Description"></textarea>
+        <input type="email" class="pure-input-1" name="email" placeholder="Email">
+    </fieldset>
+    <button type="submit" class="pure-button pure-input-1-5 pure-button-primary">Submit</button>
+</form>
+
+
+{% endblock %}
