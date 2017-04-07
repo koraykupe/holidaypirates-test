@@ -1,8 +1,15 @@
 <?php
 namespace JobBoard\Observer;
 
+/**
+ * Class EmailNotifier
+ * @package JobBoard\Observer
+ */
 class EmailNotifier implements Observer
 {
+    /**
+     * @return bool
+     */
     public function handle()
     {
         $mail = new \PHPMailer();

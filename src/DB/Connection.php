@@ -4,9 +4,20 @@ namespace JobBoard\DB;
 use Spot\Config;
 use Spot\Locator;
 
+/**
+ * Class Connection
+ * @package JobBoard\DB
+ */
 class Connection
 {
+    /**
+     * @var mixed
+     */
     private $connectionParams;
+
+    /**
+     * Connection constructor.
+     */
     public function __construct()
     {
         $this->connectionParams = include 'config/db.php';

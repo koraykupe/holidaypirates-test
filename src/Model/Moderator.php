@@ -1,15 +1,16 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace JobBoard\Model;
-
-use JobBoard\DB\Connection;
+use JobBoard\Model\Traits\CanModerate;
 
 /**
  * Class User
  * @package JobBoard\Model
  */
-class User extends Connection
+class Moderator extends User
 {
+    use CanModerate;
+
     /**
      * @var \Spot\Mapper
      */
@@ -21,8 +22,6 @@ class User extends Connection
     public function __construct()
     {
         parent::__construct();
-        $this->mapper = $this->connection->mapper('JobBoard\Model\Entity\UserEntity');
-        $this->mapper->migrate();
     }
 
     /**

@@ -1,16 +1,27 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace JobBoard\Controllers;
 
 use JobBoard\Model\User;
 
+/**
+ * Class UserController
+ * @package JobBoard\Controllers
+ */
 class UserController extends AbstractController
 {
+    /**
+     *
+     */
     public function showForm()
     {
         $html = $this->renderer->render('AddUserForm');
         $this->response->setContent($html);
     }
 
+    /**
+     *
+     */
     public function postForm()
     {
         // Get input data

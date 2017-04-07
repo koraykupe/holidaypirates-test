@@ -1,5 +1,5 @@
 <?php
-namespace JobBoard\Traits;
+namespace JobBoard\Model\Traits;
 
 trait CanModerate
 {

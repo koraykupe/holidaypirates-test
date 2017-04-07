@@ -1,12 +1,20 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace JobBoard\Controllers;
 
 use JobBoard\Job;
 use JobBoard\Observer\EmailNotifier;
 use JobBoard\Observer\PostJobOffer;
 
+/**
+ * Class JobController
+ * @package JobBoard\Controllers
+ */
 class JobController extends AbstractController
 {
+    /**
+     * Show add job form
+     */
     public function showForm()
     {
         if (!$this->auth->getUser()) {
@@ -18,6 +26,9 @@ class JobController extends AbstractController
         $this->response->setContent($html);
     }
 
+    /**
+     * Get input data and send it to create jobs db
+     */
     public function postForm()
     {
         if (!$this->auth->getUser()) {

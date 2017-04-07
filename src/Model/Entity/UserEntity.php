@@ -4,9 +4,20 @@ namespace JobBoard\Model\Entity;
 
 use Spot\Entity as SpotEntity;
 
+/**
+ * Class UserEntity
+ * @package JobBoard\Model\Entity
+ */
 class UserEntity extends SpotEntity
 {
+    /**
+     * @var string
+     */
     protected static $table = 'users';
+
+    /**
+     * @return array
+     */
     public static function fields()
     {
         return [

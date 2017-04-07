@@ -54,6 +54,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Todo
 
+* Friendly error page for live environment
 * Abstraction for connection
 * Cache mechanism
 * More tests

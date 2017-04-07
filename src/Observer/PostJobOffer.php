@@ -5,22 +5,42 @@ use Doctrine\DBAL\Driver\PDOException;
 use JobBoard\DB\Connection;
 use JobBoard\Job;
 
+/**
+ * Class PostJobOffer
+ * @package JobBoard\Observer
+ */
 class PostJobOffer extends Connection implements Subject {
 
+    /**
+     * @var array
+     */
     protected $observers = [];
+    /**
+     * @var
+     */
     protected $connection;
 
+    /**
+     * @param Observer $observer
+     * @return $this
+     */
     public function attach(Observer $observer)
     {
         $this->observers[] = $observer;
         return $this;
     }
 
+    /**
+     * @param $index
+     */
     public function detach($index)
     {
         unset($this->observers[$index]);
     }
 
+    /**
+     *
+     */
     public function notify()
     {
         foreach ($this->observers as $observer)
@@ -29,8 +49,13 @@ class PostJobOffer extends Connection implements Subject {
         }
     }
 
+    /**
+     * @param Job $job
+     * @return bool
+     */
     public function create(Job $job)
     {
+        /*
         $dbh = $this->connection;
         $queryBuilder = $dbh->createQueryBuilder();
 
@@ -56,6 +81,7 @@ class PostJobOffer extends Connection implements Subject {
         } catch (PDOException $exception) {
             return false;
         }
+        */
 
         return true;
     }

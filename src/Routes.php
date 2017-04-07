@@ -1,5 +1,6 @@
 <?php declare(strict_types = 1);
 
+// Define routes
 return [
     ['GET', '/job/add', ['JobBoard\Controllers\JobController', 'showForm']],
     ['POST', '/job/add', ['JobBoard\Controllers\JobController', 'postForm']],
