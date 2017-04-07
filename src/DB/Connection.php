@@ -1,7 +1,8 @@
 <?php
 namespace JobBoard\DB;
 
-use Doctrine\DBAL\DriverManager;
+use Spot\Config;
+use Spot\Locator;
 
 class Connection
 {
@@ -9,6 +10,10 @@ class Connection
     public function __construct()
     {
         $this->connectionParams = include 'config/db.php';
-        $this->connection = DriverManager::getConnection($this->connectionParams);
+        $cfg = new Config();
+
+        // Sqlite
+        $cfg->addConnection($this->connectionParams['driver_alias'], $this->connectionParams);
+        $this->connection = new Locator($cfg);
     }
 }

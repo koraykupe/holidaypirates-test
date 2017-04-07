@@ -18,6 +18,12 @@ if ($environment !== 'production') {
 $whoops->register();
 
 /*
+ * Start a session
+ */
+
+$session = new \Symfony\Component\HttpFoundation\Session\Session();
+
+/*
  * Dependency Injection
  */
 $injector = include('Dependencies.php');

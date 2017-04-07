@@ -9,18 +9,23 @@ class JobController extends AbstractController
 {
     public function showForm()
     {
-        $credentials = [
-            'username'    => 'john.doe@example.com',
-            'password' => 'password',
-            'is_manager' => 1,
-        ];
-        $this->auth->register($credentials);
-        $html = $this->renderer->render('JobForm');
+        if (!$this->auth->getUser()) {
+            $html = "Access Denied";
+            $this->response->setStatusCode(401);
+        } else {
+            $html = $this->renderer->render('JobForm');
+        }
         $this->response->setContent($html);
     }
 
-    public function postJobForm()
+    public function postForm()
     {
+        if (!$this->auth->getUser()) {
+            $html = "Access Denied";
+            // Send html to response
+            $this->response->setContent($html);
+        }
+
         // Get input data
         $title = $this->request->get('title');
         $description = $this->request->get('description');

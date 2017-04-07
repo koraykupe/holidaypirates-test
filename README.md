@@ -54,11 +54,15 @@ Add additional notes about how to deploy this on a live system
 
 ## Todo
 
-Abstraction for connection
+* Abstraction for connection
+* Cache mechanism
+* More tests
+* Decouple more dependencies (email)
 
 ## Built With
 
-* [Doctrine/DBAL](http://docs.doctrine-project.org/en/latest/) - Database abstraction package
+* [SpotORM](http://phpdatamapper.com/) - Simple data mapper ORM that uses DBAL database abstraction package
+* [PureCSS](http://purecss.io/) - Simple responsive css helper
 
 ## Acknowledgments
 

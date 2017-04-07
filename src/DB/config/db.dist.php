@@ -1,6 +1,7 @@
 <?php
 
 return [
+  'sqlite_file_name' => 'db/database.sql',
   'dbname' => '',
   'user' => '',
   'password' => '',
@@ -8,4 +9,5 @@ return [
   'port' => 3306,
   'charset' => 'utf8',
   'driver' => 'pdo_mysql',
+  'driver_alias' => 'mysql',
 ];

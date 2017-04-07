@@ -1,20 +1,6 @@
 {% extends "Layout.html" %}
 {% block content %}
 
-{% if message %}
-<div class="alert alert-success">{{ message }}</div>
-{% endif %}
-
-{% if errors %}
-<div class="alert alert-error">
-    <ul>
-        {% for error in errors %}
-        <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-
 <h1>Add Job Offer</h1>
 <form class="pure-form" method="post">
     <fieldset class="pure-group">

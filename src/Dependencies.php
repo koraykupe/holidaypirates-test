@@ -39,4 +39,7 @@ $injector->alias('JobBoard\Validation\Constraints\Email', 'JobBoard\Validation\S
 // Auth
 $injector->alias('JobBoard\Auth\Auth', 'JobBoard\Auth\BasicAuth');
 
+// Session
+$injector->alias('JobBoard\Session\Session', 'JobBoard\Session\SymfonySession');
+
 return $injector;
