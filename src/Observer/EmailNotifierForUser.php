@@ -3,10 +3,10 @@ namespace JobBoard\Observer;
 use JobBoard\Model\Job;
 
 /**
- * Class EmailNotifier
+ * Class EmailNotifierForUser
  * @package JobBoard\Observer
  */
-abstract class EmailNotifier implements Observer
+class EmailNotifierForUser implements Observer
 {
     protected $job;
     private $mail;
@@ -37,8 +37,19 @@ abstract class EmailNotifier implements Observer
         $this->mail->addAddress($this->job->email);
     }
 
+    /**
+     * @return bool
+     */
     public function handle()
     {
+        try {
+            $this->mail->Subject = 'Your submission is in moderation';
+            $this->mail->Body    = 'Thank you for job posting. Your submission is in moderation. A moderator will review it.';
+            $this->mail->send();
+        } catch (\phpmailerException $e) {
+            return $e->errorMessage();
+        }
+        return true;
     }
 
 }

@@ -40,20 +40,6 @@ class BasicAuth implements Auth
     }
 
     /**
-     * @param array $credentials
-     * @param $remember
-     * @return bool
-     */
-    public function authenticate(array $credentials, $remember)
-    {
-       if ($user = $this->login($credentials['email'], $credentials['password'])) {
-           $this->session->set('user', $user);
-           return true;
-       }
-       return false;
-    }
-
-    /**
      * @return null
      */
     public function getUser()
@@ -66,21 +52,27 @@ class BasicAuth implements Auth
      * @param bool|null $callback
      * @return bool
      */
-    public function register(array $credentials, bool $callback = null) :bool
+    public function register(array $credentials, bool $callback = null)
     {
-        return $this->user->create($credentials['email'], $credentials['password']);
+        try {
+            $this->user->create($credentials['email'], $credentials['password'], $credentials['isManager']);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
-     * @param $user
-     * @param bool $remember
+     * @param array $credentials
      * @return bool
+     * @internal param $user
+     * @internal param bool $remember
      */
-    public function login($user, bool $remember)
+    public function login(array $credentials)
     {
-        $user = $this->user->find($user, $remember);
+        $user = $this->user->find($credentials['email']);
 
-        if ($user) {
+        if (password_verify($credentials['password'], $user->password)) {
             $this->session->set('user', $user);
             return true;
         } else {
@@ -90,10 +82,19 @@ class BasicAuth implements Auth
     }
 
     /**
-     *
+     * Check whether user is manager or not
+     * @return bool
+     */
+    public function isManager()
+    {
+        return ($this->getUser() && $this->getUser()->is_manager == 1) ? true : false;
+    }
+
+    /**
+     * Logout user
      */
     public function logout()
     {
-        $this->session->remove('user');
+        return $this->session->remove('user');
     }
 }

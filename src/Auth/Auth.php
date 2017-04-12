@@ -9,13 +9,6 @@ namespace JobBoard\Auth;
 interface Auth
 {
     /**
-     * @param array $credentials
-     * @param $remember
-     * @return mixed
-     */
-    public function authenticate(array $credentials, $remember);
-
-    /**
      * @return mixed
      */
     public function getUser();
@@ -28,11 +21,10 @@ interface Auth
     public function register(array $credentials, bool $callback = null);
 
     /**
-     * @param $user
-     * @param bool $remember
-     * @return mixed
+     * @param array $credentials
+     * @return
      */
-    public function login($user, bool $remember);
+    public function login(array $credentials);
 
     /**
      * @return mixed

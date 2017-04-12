@@ -22,7 +22,6 @@ class User extends Connection
     {
         parent::__construct();
         $this->mapper = $this->connection->mapper('JobBoard\Model\Entity\UserEntity');
-        $this->mapper->migrate();
     }
 
     /**
@@ -30,14 +29,13 @@ class User extends Connection
      * @param $password
      * @return bool
      */
-    public function find($email, $password)
+    public function find($email, $password = null)
     {
-        return $this->mapper->first(
-            [
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]
-        );
+        $data['email'] = $email;
+        if ($password) {
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+        return $this->mapper->first($data);
     }
 
     /**

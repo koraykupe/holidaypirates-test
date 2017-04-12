@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 
 namespace JobBoard\Model;
-use JobBoard\Model\Traits\CanModerate;
 
 /**
  * Class User
@@ -9,8 +8,6 @@ use JobBoard\Model\Traits\CanModerate;
  */
 class Moderator extends User
 {
-    use CanModerate;
-
     /**
      * @var \Spot\Mapper
      */
@@ -25,34 +22,20 @@ class Moderator extends User
     }
 
     /**
-     * @param $email
-     * @param $password
-     * @return bool
+     * Get all moderators
      */
-    public function find($email, $password)
+    public function getAll()
     {
-        return $this->mapper->first(
-            [
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
-            ]
-        );
+        return $this->mapper->all()->where(['is_manager' => 1]);
     }
 
     /**
-     * @param string $email
-     * @param string $password
-     * @param bool $isManager
-     * @return object
+     * Check whether is a user is moderator or not
+     * @param User $user
+     * @return bool
      */
-    public function create(string $email, string $password, bool $isManager = false)
+    public function isUserModerator(User $user) :bool
     {
-        return $this->mapper->create(
-            [
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'is_manager' => (int)$isManager
-            ]
-        );
+        return $user->is_moderator == 1 ? true : false;
     }
 }

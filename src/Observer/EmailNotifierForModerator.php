@@ -1,17 +1,18 @@
 <?php
 namespace JobBoard\Observer;
-use JobBoard\Model\Job;
+use JobBoard\Model\Entity\JobEntity;
+use JobBoard\Model\Moderator;
 
 /**
- * Class EmailNotifier
+ * Class EmailNotifierForModerator
  * @package JobBoard\Observer
  */
-abstract class EmailNotifier implements Observer
+class EmailNotifierForModerator implements Observer
 {
     protected $job;
     private $mail;
 
-    public function __construct(Job $job)
+    public function __construct(JobEntity $job)
     {
         $this->job = $job;
         $this->mail = new \PHPMailer();
@@ -34,11 +35,31 @@ abstract class EmailNotifier implements Observer
         );
 
         $this->mail->setFrom('web.cpturkiye@cpturkiye.com');
-        $this->mail->addAddress($this->job->email);
+
+        $moderator = new Moderator();
+        $moderators = $moderator->getAll();
+        foreach ($moderators as $moderator) {
+            $this->mail->addAddress($moderator->email);
+        }
     }
 
+    /**
+     * @return bool
+     */
     public function handle()
     {
+        try {
+            $this->mail->Subject = 'New job post';
+            $emailText    = "Title: ".$this->job->title."<br />Description: ".$this->job->description."<br /><br />";
+            $emailText  .= '<a href="'.$this->url.'/job/approve/'.$this->job->id.'">Approve</a> or ';
+            $emailText  .= '<a href="'.$this->url.'/job/spam/'.$this->job->id.'">Mark as Spam</a>';
+
+            $this->mail->msgHTML($emailText);
+            $this->mail->send();
+        } catch (\phpmailerException $e) {
+            return $e->errorMessage();
+        }
+        return true;
     }
 
 }

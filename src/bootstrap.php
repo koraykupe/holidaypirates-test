@@ -20,8 +20,16 @@ $whoops->register();
 /*
  * Start a session
  */
-
 $session = new \Symfony\Component\HttpFoundation\Session\Session();
+
+
+/*
+ * Migration - DB Installation
+ */
+$spot = new \JobBoard\DB\Connection();
+$spot->connection->mapper('JobBoard\Model\Entity\JobEntity')->migrate();
+$spot->connection->mapper('JobBoard\Model\Entity\UserEntity');
+
 
 /*
  * Dependency Injection
