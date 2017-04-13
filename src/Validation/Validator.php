@@ -4,6 +4,7 @@ namespace JobBoard\Validation;
 
 /**
  * Interface Validator
+ *
  * @package JobBoard\Validation
  */
 interface Validator

@@ -2,12 +2,11 @@
 
 namespace JobBoard\Controllers;
 
-use JobBoard\Model\Entity\JobEntity;
 use JobBoard\Model\Job;
-use Spot\Mapper;
 
 /**
  * Class JobController
+ *
  * @package JobBoard\Controllers
  */
 class JobController extends AbstractController
@@ -85,7 +84,9 @@ class JobController extends AbstractController
         $status = $this->changeStatus((int)$input['id'], 1);
         if ($status) {
             $html = "Approved successfully";
-        } else $html = "Error occurred";
+        } else {
+            $html = "Error occurred";
+        }
 
         $this->response->setContent($html);
     }
@@ -95,7 +96,9 @@ class JobController extends AbstractController
         $status = $this->changeStatus((int)$input['id'], -1);
         if ($status) {
             $html = "Marked as spam successfully";
-        } else $html = "Error occurred";
+        } else {
+            $html = "Error occurred";
+        }
 
         $this->response->setContent($html);
     }
@@ -115,5 +118,4 @@ class JobController extends AbstractController
         }
         return false;
     }
-
 }

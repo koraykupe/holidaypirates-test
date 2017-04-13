@@ -1,29 +1,33 @@
 <?php
 namespace JobBoard\Observer;
+
+use JobBoard\Config\HassankhanConfig;
 use JobBoard\Model\Entity\JobEntity;
 use JobBoard\Model\Moderator;
 
 /**
  * Class EmailNotifierForModerator
+ *
  * @package JobBoard\Observer
  */
 class EmailNotifierForModerator implements Observer
 {
     protected $job;
     private $mail;
+    protected $config;
 
     public function __construct(JobEntity $job)
     {
         $this->job = $job;
+        $this->config = new HassankhanConfig();
         $this->mail = new \PHPMailer();
         $this->mail->isSMTP(); // or $this->mail->isSendmail();
-        $this->mail->Host = 'localhost';  // Specify main and backup SMTP servers
-        $this->mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $this->mail->Host = 'mail.cpturkiye.com';
-        $this->mail->Username = 'web.cpturkiye';                 // SMTP username
-        $this->mail->Password = 'Cps*.web2017';                           // SMTP password
-        $this->mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-        $this->mail->Port = 465;                                    // TCP port to connect to
+        $this->mail->Host = $this->config->get('email.host');  // Specify main and backup SMTP servers
+        $this->mail->SMTPAuth = true; // Enable SMTP authentication
+        $this->mail->Username = $this->config->get('email.username');  // SMTP username
+        $this->mail->Password = $this->config->get('email.password'); // SMTP password
+        $this->mail->SMTPSecure = $this->config->get('email.smtp_secure'); // Enable TLS encryption, `ssl` also accepted
+        $this->mail->Port = $this->config->get('email.port');  // TCP port to connect to
         $this->mail->Timeout = 5;
         $this->mail->SMTPAutoTLS = true;
         $this->mail->SMTPOptions = array(
@@ -34,7 +38,8 @@ class EmailNotifierForModerator implements Observer
             )
         );
 
-        $this->mail->setFrom('web.cpturkiye@cpturkiye.com');
+        $this->mail->setFrom($this->config->get('email.set_from'));
+        $this->mail->addAddress($this->job->email);
 
         $moderator = new Moderator();
         $moderators = $moderator->getAll();
@@ -51,8 +56,8 @@ class EmailNotifierForModerator implements Observer
         try {
             $this->mail->Subject = 'New job post';
             $emailText    = "Title: ".$this->job->title."<br />Description: ".$this->job->description."<br /><br />";
-            $emailText  .= '<a href="'.$this->url.'/job/approve/'.$this->job->id.'">Approve</a> or ';
-            $emailText  .= '<a href="'.$this->url.'/job/spam/'.$this->job->id.'">Mark as Spam</a>';
+            $emailText  .= '<a href="'.$this->config->get('url').'/job/approve/'.$this->job->id.'">Approve</a> or ';
+            $emailText  .= '<a href="'.$this->config->get('url').'/job/spam/'.$this->job->id.'">Mark as Spam</a>';
 
             $this->mail->msgHTML($emailText);
             $this->mail->send();
@@ -61,5 +66,4 @@ class EmailNotifierForModerator implements Observer
         }
         return true;
     }
-
 }

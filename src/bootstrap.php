@@ -11,9 +11,11 @@ $whoops = new \Whoops\Run;
 if ($environment !== 'production') {
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 } else {
-    $whoops->pushHandler(function($e) {
-        echo 'Todo: Friendly error page';
-    });
+    $whoops->pushHandler(
+        function ($e) {
+            echo 'Todo: Friendly error page';
+        }
+    );
 }
 $whoops->register();
 
@@ -22,31 +24,22 @@ $whoops->register();
  */
 $session = new \Symfony\Component\HttpFoundation\Session\Session();
 
-
-/*
- * Migration - DB Installation
- */
-$spot = new \JobBoard\DB\Connection();
-$spot->connection->mapper('JobBoard\Model\Entity\JobEntity')->migrate();
-$spot->connection->mapper('JobBoard\Model\Entity\UserEntity');
-
-
 /*
  * Dependency Injection
  */
-$injector = include('Dependencies.php');
+$injector = include 'Dependencies.php';
 
 $request = $injector->make('Symfony\Component\HttpFoundation\Request');
 $response = $injector->make('Symfony\Component\HttpFoundation\Response');
-
 $request = $request::createFromGlobals();
 
 /**
  * Routes
+ *
  * @param \FastRoute\RouteCollector $r
  */
 $routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
-    $routes = include('Routes.php');
+    $routes = include 'Routes.php';
     foreach ($routes as $route) {
         $r->addRoute($route[0], $route[1], $route[2]);
     }
@@ -71,6 +64,7 @@ switch ($routeInfo[0]) {
         $vars = $routeInfo[2];
 
         $class = $injector->make($className);
+
         $class->$method($vars);
         break;
 }

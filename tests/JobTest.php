@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -7,14 +8,12 @@ class JobTest extends TestCase
     /** @test */
     public function status_is_pending_for_first_job_post()
     {
-        $job = new \JobBoard\Job(
+        $job = new \JobBoard\Model\Job(
             "PHP developer",
             "We are looking for a PHP developer who has professional experience on PHP and MySQL at least 5 years.",
-            "hr@holiday-pirates.com"
+            "hr@holiday-pirates.com",
+            1
         );
-
-        $jobOffer = new \JobBoard\Observer\PostJobOffer();
-        $jobOffer->create($job);
 
     }
 

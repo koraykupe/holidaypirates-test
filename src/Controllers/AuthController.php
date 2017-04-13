@@ -1,10 +1,12 @@
 <?php declare(strict_types = 1);
 
 namespace JobBoard\Controllers;
+
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class AuthController
+ *
  * @package JobBoard\Controllers
  */
 class AuthController extends AbstractController
@@ -28,7 +30,7 @@ class AuthController extends AbstractController
         $credentials['password'] = $this->request->get('password');
         $credentials['isManager'] = (bool)$this->request->get('manager');
 
-        if($this->auth->register($credentials)) {
+        if ($this->auth->register($credentials)) {
             $data = ["message" => "User has been added."];
         } else {
             $data = ["error" => "User register error."];
@@ -73,5 +75,4 @@ class AuthController extends AbstractController
         $this->auth->logout();
         $this->response = new RedirectResponse('/auth/login');
     }
-
 }

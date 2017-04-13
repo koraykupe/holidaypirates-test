@@ -4,6 +4,7 @@ namespace JobBoard\Model;
 
 /**
  * Class User
+ *
  * @package JobBoard\Model
  */
 class Moderator extends User
@@ -31,7 +32,8 @@ class Moderator extends User
 
     /**
      * Check whether is a user is moderator or not
-     * @param User $user
+     *
+     * @param  User $user
      * @return bool
      */
     public function isUserModerator(User $user) :bool

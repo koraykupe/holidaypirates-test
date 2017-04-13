@@ -3,9 +3,11 @@
 namespace JobBoard\Validation;
 
 use Symfony\Component\Validator\Validation;
+use Symfony\Component\Validator\ValidatorBuilderInterface;
 
 /**
  * Class SymfonyValidator
+ *
  * @package JobBoard\Validation
  */
 class SymfonyValidator implements Validator
@@ -35,11 +37,10 @@ class SymfonyValidator implements Validator
 
     /**
      * @param $str
-     * @return $this
+     * @return ValidatorBuilderInterface
      */
     public function addMethodMapping($str)
     {
         return $this->validator->addMethodMapping($str);
     }
-
 }

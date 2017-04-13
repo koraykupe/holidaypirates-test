@@ -6,6 +6,7 @@ use Spot\Entity as SpotEntity;
 
 /**
  * Class UserEntity
+ *
  * @package JobBoard\Model\Entity
  */
 class UserEntity extends SpotEntity
@@ -28,5 +29,4 @@ class UserEntity extends SpotEntity
             'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
         ];
     }
-
 }

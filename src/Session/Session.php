@@ -4,6 +4,7 @@ namespace JobBoard\Session;
 
 /**
  * Interface Session
+ *
  * @package JobBoard\Session
  */
 interface Session

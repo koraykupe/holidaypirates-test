@@ -3,6 +3,7 @@ namespace JobBoard\Observer;
 
 /**
  * Interface Subject
+ *
  * @package JobBoard\Observer
  */
 interface Subject

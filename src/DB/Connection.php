@@ -1,11 +1,13 @@
 <?php
 namespace JobBoard\DB;
 
-use Spot\Config;
+use JobBoard\Config\HassankhanConfig;
+use Spot\Config as SpotConfig;
 use Spot\Locator;
 
 /**
  * Class Connection
+ *
  * @package JobBoard\DB
  */
 class Connection
@@ -14,14 +16,16 @@ class Connection
      * @var mixed
      */
     private $connectionParams;
+    private $config;
 
     /**
      * Connection constructor.
      */
     public function __construct()
     {
-        $this->connectionParams = include 'config/db.php';
-        $cfg = new Config();
+        $this->config = new HassankhanConfig();
+        $this->connectionParams = $this->config->get('database');
+        $cfg = new SpotConfig();
 
         // Sqlite
         $cfg->addConnection($this->connectionParams['driver_alias'], $this->connectionParams);

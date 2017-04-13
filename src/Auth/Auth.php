@@ -4,6 +4,7 @@ namespace JobBoard\Auth;
 
 /**
  * Interface Auth
+ *
  * @package JobBoard\Auth
  */
 interface Auth
@@ -14,7 +15,7 @@ interface Auth
     public function getUser();
 
     /**
-     * @param array $credentials
+     * @param array     $credentials
      * @param bool|null $callback
      * @return mixed
      */

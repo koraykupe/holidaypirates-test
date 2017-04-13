@@ -6,6 +6,7 @@ use JobBoard\DB\Connection;
 
 /**
  * Class User
+ *
  * @package JobBoard\Model
  */
 class User extends Connection
@@ -41,7 +42,7 @@ class User extends Connection
     /**
      * @param string $email
      * @param string $password
-     * @param bool $isManager
+     * @param bool   $isManager
      * @return object
      */
     public function create(string $email, string $password, bool $isManager = false)

@@ -3,6 +3,7 @@
 namespace JobBoard\Controllers;
 
 use JobBoard\Auth\Auth;
+use JobBoard\Config\Config;
 use JobBoard\DB\Connection;
 use JobBoard\Template\Renderer;
 use JobBoard\Validation\Validator;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AbstractController
+ *
  * @package JobBoard\Controllers
  */
 abstract class AbstractController
@@ -35,15 +37,21 @@ abstract class AbstractController
      * @var Connection
      */
     protected $connection;
+    /**
+     * @var Config
+     */
+    protected $config;
 
     /**
      * AbstractController constructor.
-     * @param Request $request
-     * @param Response $response
-     * @param Renderer $renderer
-     * @param Validator $validator
-     * @param Auth $auth
+     *
+     * @param Request    $request
+     * @param Response   $response
+     * @param Renderer   $renderer
+     * @param Validator  $validator
+     * @param Auth       $auth
      * @param Connection $connection
+     * @param Config     $config
      */
     public function __construct(
         Request $request,
@@ -51,14 +59,16 @@ abstract class AbstractController
         Renderer $renderer,
         Validator $validator,
         Auth $auth,
-        Connection $connection
-    )
-    {
+        Connection $connection,
+        Config $config
+    ) {
+    
         $this->request = $request::createFromGlobals();
         $this->response = $response;
         $this->renderer = $renderer;
         $this->validator = $validator;
         $this->auth = $auth;
         $this->connection = $connection;
+        $this->config = $config;
     }
 }

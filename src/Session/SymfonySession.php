@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Session\Session as s;
 
 /**
  * Class SymfonySession
+ *
  * @package JobBoard\Session
  * HTTPFoundation package implementation for session management
  */
@@ -18,6 +19,7 @@ class SymfonySession implements Session
 
     /**
      * SymfonySession constructor.
+     *
      * @param s $session
      */
     public function __construct(s $session)

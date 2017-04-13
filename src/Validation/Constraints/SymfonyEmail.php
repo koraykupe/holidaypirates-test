@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints\Email as SymfonyEmailConstraint;
 
 /**
  * Class SymfonyEmail
+ *
  * @package JobBoard\Validation\Constraints
  */
 class SymfonyEmail implements Email
@@ -17,6 +18,7 @@ class SymfonyEmail implements Email
 
     /**
      * SymfonyEmail constructor.
+     *
      * @param array $rules
      */
     public function __construct(array $rules)

@@ -7,6 +7,7 @@ use JobBoard\Session\Session;
 
 /**
  * Class BasicAuth
+ *
  * @package JobBoard\Auth
  */
 class BasicAuth implements Auth
@@ -30,7 +31,8 @@ class BasicAuth implements Auth
 
     /**
      * BasicAuth constructor.
-     * @param User $user
+     *
+     * @param User    $user
      * @param Session $session
      */
     public function __construct(User $user, Session $session)
@@ -48,7 +50,7 @@ class BasicAuth implements Auth
     }
 
     /**
-     * @param array $credentials
+     * @param array     $credentials
      * @param bool|null $callback
      * @return bool
      */
@@ -83,6 +85,7 @@ class BasicAuth implements Auth
 
     /**
      * Check whether user is manager or not
+     *
      * @return bool
      */
     public function isManager()
