@@ -8,23 +8,11 @@ class JobTest extends TestCase
     /** @test */
     public function status_is_pending_for_first_job_post()
     {
-        $job = new \JobBoard\Model\Job(
-            "PHP developer",
-            "We are looking for a PHP developer who has professional experience on PHP and MySQL at least 5 years.",
-            "hr@holiday-pirates.com",
-            1
-        );
-
     }
 
     /** @test */
     public function status_is_published_for_first_job_post()
     {
-        $job = new \JobBoard\Job(
-            "PHP developer",
-            "We are looking for a PHP developer who has professional experience on PHP and MySQL at least 5 years.",
-            "hr@holiday-pirates.com"
-        );
     }
 
     /** @test */

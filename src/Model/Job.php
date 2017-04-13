@@ -18,6 +18,7 @@ class Job extends Connection implements Subject
     public $email;
     public $user_id;
     protected $mapper;
+    protected $connection;
     /**
      * @var array
      */

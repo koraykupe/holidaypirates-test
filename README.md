@@ -2,6 +2,8 @@
 This project created for Holiday Pirates company.
 You need first add some users and a moderator to system. Then, you have to login.
 After login you can access job posting page. It will check your past job records and will send email if needed.
+If it is first job offer of user, managers will get an email. You have to login as manager to approve or mark as spam it.
+
 * Used composer for package management.
 * Created adapter interfaces for packages to make them decoupled from the system.
 * All logic is in src folder.
@@ -10,7 +12,7 @@ After login you can access job posting page. It will check your past job records
 * Template (Twig/Html) files are in templates folder.
 * Tests are in tests folder.
 * Css files and other public files are under web folder.
-*I created a bootstrap file that loads all necessary things in a file. Defined class dependencies in dependencies file and defined routes in routes.php
+* I created a bootstrap file that loads all necessary things in a file. Defined class dependencies in dependencies file and defined routes in routes.php
 
 
 ### Prerequisites
@@ -35,6 +37,7 @@ composer install
 * Duplicate config/config.dist.php file as config.php and set your config variables.
 * Go to /auth/register page to add user or moderator
 * Go to /auth/login page to login
+* If you want to logout go to /auth/logout
 * Go to /job/add page to add a job offer
 
 ## Running the tests
@@ -47,21 +50,23 @@ I used PSR1/2 code styles and PSR4 for namespaces.
 You can use Codesniffer to check the code against some standards.
 
 ```
-./vendor/bin/phpcs /src
+./vendor/bin/phpcs src
+./vendor/bin/phpcs --standard=psr2 src
 ```
 
 ## Todo
 
 * Friendly error page for live environment
 * Validation for username and password
-* Cache
 * Add more tests
-* Decouple more dependencies (email, config)
+* Decouple more dependencies (email, config, validator)
 * Error codes and memorable functions for errors / responses 
 * Redirect for controllers and after successful login
 * Don't delete whole input data if there is a validation error
 * Command bus pattern for controllers
 * Logging
+* Cache
+* Middleware layer
 * Refactoring
 * Moderator or manager naming
 * Repositories for models
