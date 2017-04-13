@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Job Board</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+        <link rel="stylesheet" href="/assets/css/style.css">
+    </head>
+
+    <body>
+        <div id="layout">
+            <div id="main">
+                <div class="content">
+
+                    {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                    {% endif %}
+
+                    {% if error %}
+                    <div class="alert alert-error">{{ error }}</div>
+                    {% endif %}
+
+                    {% if errors %}
+                    <div class="alert alert-error">
+                        <ul>
+                            {% for error in errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

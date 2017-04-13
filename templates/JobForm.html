@@ -1,0 +1,14 @@
+{% extends "Layout.html" %}
+{% block content %}
+
+<h1>Add Job Offer</h1>
+<form class="pure-form" method="post">
+    <fieldset class="pure-group">
+        <input type="text" class="pure-input-1" name="title" placeholder="Title">
+        <textarea class="pure-input-1" name="description" placeholder="Description"></textarea>
+        <input type="email" class="pure-input-1" name="email" value="{{ email }}" placeholder="Email">
+    </fieldset>
+    <button type="submit" class="pure-button pure-input-1-5 pure-button-primary">Submit</button>
+</form>
+
+{% endblock %}
