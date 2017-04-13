@@ -4,9 +4,9 @@ namespace JobBoard\Template;
 
 use Twig_Environment;
 
-
 /**
  * Class TwigRenderer
+ *
  * @package JobBoard\Template
  * Twig component implementation for templating
  */
@@ -19,6 +19,7 @@ class TwigRenderer implements Renderer
 
     /**
      * TwigRenderer constructor.
+     *
      * @param Twig_Environment $renderer
      */
     public function __construct(Twig_Environment $renderer)
@@ -28,7 +29,7 @@ class TwigRenderer implements Renderer
 
     /**
      * @param $template
-     * @param array $data
+     * @param array    $data
      * @return string
      */
     public function render($template, $data = []) : string
