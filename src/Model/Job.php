@@ -137,6 +137,9 @@ class Job implements Subject
         return true;
     }
 
+    /**
+     * Notify method for observers
+     */
     public function notify()
     {
         foreach ($this->observers as $observer) {

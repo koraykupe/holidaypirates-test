@@ -59,7 +59,8 @@ You can use Codesniffer to check the code against some standards.
 * Friendly error page for live environment
 * Validation for username and password
 * Add more tests
-* Morde decoupling more dependencies
+* More decoupling more dependencies
+* A common repository
 * Error codes and memorable functions for errors / responses 
 * Redirect for controllers and after successful login
 * Don't delete whole input data if there is a validation error

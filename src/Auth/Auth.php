@@ -6,6 +6,8 @@ use JobBoard\Model\User;
 /**
  * Interface Auth
  *
+ * Authentication module
+ *
  * @package JobBoard\Auth
  */
 interface Auth

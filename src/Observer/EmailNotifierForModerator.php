@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types = 1);
+
 namespace JobBoard\Observer;
 
 use JobBoard\Config\HassankhanConfig;
@@ -17,6 +18,11 @@ class EmailNotifierForModerator implements Observer
     protected $config;
     protected $userRepository;
 
+    /**
+     * EmailNotifierForModerator constructor.
+     * @param Job $job
+     * @param UserRepository $userRepository
+     */
     public function __construct(Job $job, UserRepository $userRepository)
     {
         $this->job = $job;

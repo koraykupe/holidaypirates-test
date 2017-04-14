@@ -9,6 +9,8 @@ use JobBoard\Session\Session;
 /**
  * Class BasicAuth
  *
+ * A simple Auth class that use sessions and repository collections.
+ *
  * @package JobBoard\Auth
  */
 class BasicAuth implements Auth

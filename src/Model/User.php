@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace JobBoard\Model;
 
 use JobBoard\Observer\Observer;
@@ -102,6 +102,9 @@ class User implements Subject
         return true;
     }
 
+    /**
+     * Notify
+     */
     public function notify()
     {
         foreach ($this->observers as $observer) {

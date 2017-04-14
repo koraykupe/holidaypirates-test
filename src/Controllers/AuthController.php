@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Class AuthController
  *
+ * Authentication controller
+ *
  * @package JobBoard\Controllers
  */
 class AuthController extends AbstractController
@@ -17,8 +19,8 @@ class AuthController extends AbstractController
      */
     public function showRegisterForm()
     {
-        // $html = $this->renderer->render('AddUserForm');
-        // $this->response->setContent($html);
+        $html = $this->renderer->render('AddUserForm');
+        $this->response->setContent($html);
     }
 
     /**

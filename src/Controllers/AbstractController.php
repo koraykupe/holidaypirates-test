@@ -4,7 +4,6 @@ namespace JobBoard\Controllers;
 
 use JobBoard\Auth\Auth;
 use JobBoard\Config\Config;
-use JobBoard\DB\Connection;
 use JobBoard\Repositories\JobRepository;
 use JobBoard\Repositories\UserRepository;
 use JobBoard\Template\Renderer;
