@@ -8,12 +8,10 @@ $injector = new \Auryn\Injector;
 
 // Singleton - DB Connection
 $injector->share('JobBoard\DB\Connection');
-$injector->define(
-    'JobBoard\DB\Connection',
-    [
-    ':configuration' => $injector->make('Doctrine\DBAL\Configuration'),
-    ]
-);
+$injector->alias('JobBoard\DB\Connection', 'JobBoard\DB\DbalConnection');
+
+// JobRepository
+$injector->alias('JobBoard\Repositories\JobRepository', 'JobBoard\Repositories\DbalJobRepository');
 
 // Singleton - Configuration
 // $injector->share('JobBoard\Config\Config');

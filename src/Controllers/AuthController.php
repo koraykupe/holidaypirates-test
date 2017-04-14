@@ -26,9 +26,9 @@ class AuthController extends AbstractController
     public function postRegisterForm()
     {
         // Get input data
-        $credentials['email'] = $this->request->get('email');
-        $credentials['password'] = $this->request->get('password');
-        $credentials['isManager'] = (bool)$this->request->get('manager');
+        $email = $this->request->get('email');
+        $password = $this->request->get('password');
+        $isManager = (bool)$this->request->get('manager');
 
         if ($this->auth->register($credentials)) {
             $data = ["message" => "User has been added."];

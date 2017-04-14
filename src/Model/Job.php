@@ -1,9 +1,6 @@
 <?php
 namespace JobBoard\Model;
 
-use JobBoard\DB\Connection;
-use JobBoard\Observer\EmailNotifierForModerator;
-use JobBoard\Observer\EmailNotifierForUser;
 use JobBoard\Observer\Observer;
 use JobBoard\Observer\Subject;
 use Symfony\Component\Validator\Constraints\Email;
@@ -11,14 +8,13 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-class Job extends Connection implements Subject
+class Job implements Subject
 {
     public $title;
     public $description;
     public $email;
+    public $status;
     public $user_id;
-    protected $mapper;
-    protected $connection;
     /**
      * @var array
      */
@@ -31,17 +27,15 @@ class Job extends Connection implements Subject
      * @param $description
      * @param $email
      * @param $userId
+     * @param int $status
      */
-    public function __construct($title, $description, $email, $userId)
+    public function __construct($title, $description, $email, $userId, int $status = 0)
     {
-        parent::__construct();
-
-        $this->mapper = $this->connection->mapper('JobBoard\Model\Entity\JobEntity');
-
         $this->title = $title;
         $this->description = $description;
         $this->email = $email;
         $this->user_id = $userId;
+        $this->status = $status;
     }
 
     /**
@@ -120,47 +114,6 @@ class Job extends Connection implements Subject
                 )
             )
         );
-    }
-
-    public function create()
-    {
-        if ($this->countUsersJobPosts($this->user_id) == 0) {
-            $status = 0;
-            // If this is first job posting of the user attach email notifier event
-            $this->attach(new EmailNotifierForUser($this));
-        } else {
-            $status = 1;
-        }
-
-        $user = $this->mapper->create(
-            [
-                'title' => $this->title,
-                'description' => $this->description,
-                'email' => $this->email,
-                'user_id' => $this->user_id,
-                'status' => $status
-            ]
-        );
-
-        // Attach email notifier event for moderator
-        $this->attach(new EmailNotifierForModerator($user));
-        $this->notify();
-
-        return $user;
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     */
-    public function find($id)
-    {
-        return $this->mapper->where('id', $id)->first();
-    }
-
-    public function countUsersJobPosts($userId)
-    {
-        return $this->mapper->where(['user_id' => $userId])->count();
     }
 
     /**

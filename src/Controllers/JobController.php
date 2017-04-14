@@ -2,7 +2,14 @@
 
 namespace JobBoard\Controllers;
 
+use JobBoard\Auth\Auth;
+use JobBoard\Config\Config;
 use JobBoard\Model\Job;
+use JobBoard\Repositories\JobRepository;
+use JobBoard\Template\Renderer;
+use JobBoard\Validation\Validator;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class JobController
@@ -11,6 +18,22 @@ use JobBoard\Model\Job;
  */
 class JobController extends AbstractController
 {
+    protected $jobRepository;
+
+    public function __construct(
+        Request $request,
+        Response $response,
+        Renderer $renderer,
+        Validator $validator,
+        Auth $auth,
+        Config $config,
+        JobRepository $jobRepository
+    )
+    {
+        parent::__construct($request, $response, $renderer, $validator, $auth, $config);
+        $this->jobRepository = $jobRepository;
+    }
+
     /**
      * Show add job form
      */
@@ -65,8 +88,9 @@ class JobController extends AbstractController
             }
 
             $data = array();
+
             // If job created successfully return success message
-            if ($job->create()) {
+            if ($this->jobRepository->save($job)) {
                 $data = [
                     'message' => 'Job offer was saved'
                 ];

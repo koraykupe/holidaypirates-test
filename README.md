@@ -34,11 +34,11 @@ Web Browser
 composer install
 ```
 
-* Duplicate config/config.dist.php file as config.php and set your config variables.
-* Go to /auth/register page to add user or moderator
-* Go to /auth/login page to login
-* If you want to logout go to /auth/logout
-* Go to /job/add page to add a job offer
+* Duplicate `config/config.dist.php` file as `config.php` and set your config variables.
+* Go to `/auth/register` page to add user or moderator
+* Go to `/auth/login` page to login
+* If you want to logout go to `/auth/logout`
+* Go to `/job/add` page to add a job offer
 
 ## Running the tests
 

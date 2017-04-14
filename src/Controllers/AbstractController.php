@@ -34,10 +34,6 @@ abstract class AbstractController
      */
     protected $auth;
     /**
-     * @var Connection
-     */
-    protected $connection;
-    /**
      * @var Config
      */
     protected $config;
@@ -59,7 +55,6 @@ abstract class AbstractController
         Renderer $renderer,
         Validator $validator,
         Auth $auth,
-        Connection $connection,
         Config $config
     ) {
     
@@ -68,7 +63,6 @@ abstract class AbstractController
         $this->renderer = $renderer;
         $this->validator = $validator;
         $this->auth = $auth;
-        $this->connection = $connection;
         $this->config = $config;
     }
 }
