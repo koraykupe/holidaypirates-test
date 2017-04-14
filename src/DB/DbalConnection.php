@@ -16,13 +16,13 @@ class DbalConnection implements Connection
         $this->connection = DriverManager::getConnection($this->config->get('database'));
     }
 
-    public function getConnection(array $params)
+    public function getConnection()
     {
         return $this->connection;
     }
 
     public function createQueryBuilder()
     {
-        $this->connection->createQueryBuilder();
+        return $this->connection->createQueryBuilder();
     }
 }

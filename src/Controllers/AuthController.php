@@ -2,6 +2,7 @@
 
 namespace JobBoard\Controllers;
 
+use JobBoard\Model\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -16,8 +17,8 @@ class AuthController extends AbstractController
      */
     public function showRegisterForm()
     {
-        $html = $this->renderer->render('AddUserForm');
-        $this->response->setContent($html);
+        // $html = $this->renderer->render('AddUserForm');
+        // $this->response->setContent($html);
     }
 
     /**
@@ -30,10 +31,13 @@ class AuthController extends AbstractController
         $password = $this->request->get('password');
         $isManager = (bool)$this->request->get('manager');
 
-        if ($this->auth->register($credentials)) {
+        $user = new User($email, $password, $isManager);
+
+        try {
+            $this->auth->register($user);
             $data = ["message" => "User has been added."];
-        } else {
-            $data = ["error" => "User register error."];
+        } catch (\Exception $exception) {
+            $data = ["error" => "This email is already registered."];
         }
 
         // Send data to renderer to generate html output via templates

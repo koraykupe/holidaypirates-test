@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class Job implements Subject
 {
+    public $id;
     public $title;
     public $description;
     public $email;

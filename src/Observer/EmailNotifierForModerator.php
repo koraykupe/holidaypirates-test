@@ -2,8 +2,8 @@
 namespace JobBoard\Observer;
 
 use JobBoard\Config\HassankhanConfig;
-use JobBoard\Model\Entity\JobEntity;
-use JobBoard\Model\Moderator;
+use JobBoard\Model\Job;
+use JobBoard\Repositories\UserRepository;
 
 /**
  * Class EmailNotifierForModerator
@@ -15,10 +15,12 @@ class EmailNotifierForModerator implements Observer
     protected $job;
     private $mail;
     protected $config;
+    protected $userRepository;
 
-    public function __construct(JobEntity $job)
+    public function __construct(Job $job, UserRepository $userRepository)
     {
         $this->job = $job;
+        $this->userRepository = $userRepository;
         $this->config = new HassankhanConfig();
         $this->mail = new \PHPMailer();
         $this->mail->isSMTP(); // or $this->mail->isSendmail();
@@ -41,10 +43,9 @@ class EmailNotifierForModerator implements Observer
         $this->mail->setFrom($this->config->get('email.set_from'));
         $this->mail->addAddress($this->job->email);
 
-        $moderator = new Moderator();
-        $moderators = $moderator->getAll();
+        $moderators = $this->userRepository->getAllModerators();
         foreach ($moderators as $moderator) {
-            $this->mail->addAddress($moderator->email);
+            $this->mail->addAddress($moderator['email']);
         }
     }
 

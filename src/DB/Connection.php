@@ -6,6 +6,6 @@ namespace JobBoard\DB;
 
 interface Connection
 {
-    public function getConnection(array $config);
+    public function getConnection();
     public function createQueryBuilder();
 }

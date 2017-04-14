@@ -2,14 +2,9 @@
 
 namespace JobBoard\Controllers;
 
-use JobBoard\Auth\Auth;
-use JobBoard\Config\Config;
 use JobBoard\Model\Job;
-use JobBoard\Repositories\JobRepository;
-use JobBoard\Template\Renderer;
-use JobBoard\Validation\Validator;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use JobBoard\Observer\EmailNotifierForModerator;
+use JobBoard\Observer\EmailNotifierForUser;
 
 /**
  * Class JobController
@@ -18,22 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class JobController extends AbstractController
 {
-    protected $jobRepository;
-
-    public function __construct(
-        Request $request,
-        Response $response,
-        Renderer $renderer,
-        Validator $validator,
-        Auth $auth,
-        Config $config,
-        JobRepository $jobRepository
-    )
-    {
-        parent::__construct($request, $response, $renderer, $validator, $auth, $config);
-        $this->jobRepository = $jobRepository;
-    }
-
     /**
      * Show add job form
      */
@@ -66,7 +45,7 @@ class JobController extends AbstractController
             $email = $this->request->get('email');
 
             // Create job instance
-            $job = new Job($title, $description, $email, 1, $this->auth->getUser()->id);
+            $job = new Job($title, $description, $email, $this->auth->getUser()->id);
 
             // Validate the input
             $validator = $this->validator
@@ -87,14 +66,27 @@ class JobController extends AbstractController
                 return;
             }
 
-            $data = array();
+            // Calculate user's past job posts and attach event
+
+            if ($this->jobRepository->countUsersJobPosts(intval($job->user_id)) == 0) {
+                $job->status = 0;
+                // If this is first job posting of the user attach email notifier event
+                $job->attach(new EmailNotifierForUser($job));
+            } else {
+                $job->status = 1;
+            }
 
             // If job created successfully return success message
-            if ($this->jobRepository->save($job)) {
-                $data = [
-                    'message' => 'Job offer was saved'
-                ];
+            try {
+                $job = $this->jobRepository->create($job);
+                $data = ['message' => 'Job offer was saved'];
+            } catch (\Exception $exception) {
+                throw $exception;
             }
+
+            $job->attach(new EmailNotifierForModerator($job, $this->userRepository));
+            $job->notify();
+
             // Send data to renderer to generate html output via templates
             $html = $this->renderer->render('JobForm', $data);
         }
@@ -109,7 +101,7 @@ class JobController extends AbstractController
         if ($status) {
             $html = "Approved successfully";
         } else {
-            $html = "Error occurred";
+            $html = "Please login as manager";
         }
 
         $this->response->setContent($html);
@@ -121,7 +113,7 @@ class JobController extends AbstractController
         if ($status) {
             $html = "Marked as spam successfully";
         } else {
-            $html = "Error occurred";
+            $html = "Please login as manager";
         }
 
         $this->response->setContent($html);
@@ -130,15 +122,8 @@ class JobController extends AbstractController
     public function changeStatus(int $id, int $status) :bool
     {
         if ($this->auth->isManager()) {
-            $jobMapper = $this->connection->connection->mapper('JobBoard\Model\Entity\JobEntity');
-
-            $job = $jobMapper->first(['id' => $id]);
-
-            if ($job) {
-                $job->status = $status;
-                $jobMapper->update($job);
-                return true;
-            }
+            $this->jobRepository->updateStatus($id, $status);
+            return true;
         }
         return false;
     }

@@ -17,7 +17,6 @@
     "rdlowrey/auryn": "^1.4",
     "twig/twig": "~1.0",
     "symfony/validator": "^3.2",
-    "vlucas/spot2": "~2.0",
     "hassankhan/config": "^0.10.0",
     "doctrine/dbal": "^2.5"
   },

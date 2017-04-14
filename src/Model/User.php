@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class User implements Subject
 {
+    public $id;
     public $email;
     public $password;
     public $isManager;
@@ -25,11 +26,11 @@ class User implements Subject
      * @param $password
      * @param $isManager
      */
-    public function __construct($email, $password, int $isManager = 0)
+    public function __construct($email, $password, bool $isManager = false)
     {
         $this->email = $email;
         $this->password = $password;
-        $this->isManager = $isManager;
+        $this->isManager = (int)$isManager;
     }
 
     /**
@@ -48,16 +49,6 @@ class User implements Subject
                 )
             )
         );
-        $metadata->addPropertyConstraint(
-            'email',
-            new Email(
-                array(
-                    'message' => 'The email {{ value }} is not a valid email.',
-                    'checkMX' => false,
-                )
-            )
-        );
-
         // Password
         $metadata->addPropertyConstraint(
             'password',
@@ -67,6 +58,25 @@ class User implements Subject
                 'max'        => 20,
                 'minMessage' => 'Password must be at least {{ limit }} characters long',
                 'maxMessage' => 'Password cannot be longer than {{ limit }} characters',
+                )
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'email',
+            new Email(
+                array(
+                'message' => 'The email {{ value }} is not a valid email.',
+                'checkMX' => false,
+                )
+            )
+        );
+        $metadata->addPropertyConstraint(
+            'description',
+            new Length(
+                array(
+                'max'        => 255,
+                'maxMessage' => 'Job description cannot be longer than {{ limit }} characters',
                 )
             )
         );
