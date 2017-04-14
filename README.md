@@ -34,11 +34,11 @@ Web Browser
 composer install
 ```
 
-* Duplicate config/config.dist.php file as config.php and set your config variables.
-* Go to /auth/register page to add user or moderator
-* Go to /auth/login page to login
-* If you want to logout go to /auth/logout
-* Go to /job/add page to add a job offer
+* Duplicate `config/config.dist.php` file as `config.php` and set your config variables.
+* Go to `/auth/register` page to add user or moderator
+* Go to `/auth/login` page to login
+* If you want to logout go to `/auth/logout`
+* Go to `/job/add` page to add a job offer
 
 ## Running the tests
 
@@ -59,20 +59,19 @@ You can use Codesniffer to check the code against some standards.
 * Friendly error page for live environment
 * Validation for username and password
 * Add more tests
-* Decouple more dependencies (email, config, validator)
+* Morde decoupling more dependencies
 * Error codes and memorable functions for errors / responses 
 * Redirect for controllers and after successful login
 * Don't delete whole input data if there is a validation error
 * Command bus pattern for controllers
 * Logging
 * Cache
+* Type casting for repositories
 * Middleware layer
-* Refactoring
-* Moderator or manager naming
-* Repositories for models
 * Model relations
-* Implement Doctrine instead of SpotORM
-* DRY for email notifiers
+* Create a common class for email events
+* Different class for managers
+* Better authorization
 
 ## Built With
 
@@ -83,6 +82,6 @@ You can use Codesniffer to check the code against some standards.
 * [Auryn](https://github.com/rdlowrey/auryn) - IoC Dependency Injector
 * [Twig](https://twig.sensiolabs.org/) - Template engine for PHP
 * [Symfony/Validator](http://symfony.com/doc/current/validation.html) - DSymfony componenet for data validation
-* [SpotORM](http://phpdatamapper.com/) - Simple data mapper ORM that uses DBAL database abstraction package
+* [DBAL](http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest) - Database Abstraction Package
 * [Hassankhan/Config](https://github.com/hassankhan/config) - Config is a lightweight configuration file loader that supports PHP, INI, XML, JSON, and YAML files
 * [PureCSS](http://purecss.io/) - Simple responsive css helper

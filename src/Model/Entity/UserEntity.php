@@ -26,7 +26,7 @@ class UserEntity extends SpotEntity
             'email'        => ['type' => 'string', 'unique' => true, 'required' => true],
             'password'     => ['type' => 'string', 'required' => true],
             'is_manager'   => ['type' => 'boolean', 'default' => 0, 'required' => true],
-            'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
+            'created_at'   => ['type' => 'datetime', 'default' => new \DateTime()]
         ];
     }
 }

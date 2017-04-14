@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace JobBoard\Auth;
 
 use JobBoard\Model\User;
+use JobBoard\Repositories\UserRepository;
 use JobBoard\Session\Session;
 
 /**
@@ -21,9 +22,9 @@ class BasicAuth implements Auth
      */
     protected $queryBuilder;
     /**
-     * @var User
+     * @var UserRepository
      */
-    protected $user;
+    protected $userRepository;
     /**
      * @var Session
      */
@@ -32,12 +33,12 @@ class BasicAuth implements Auth
     /**
      * BasicAuth constructor.
      *
-     * @param User    $user
+     * @param UserRepository $userRepository
      * @param Session $session
      */
-    public function __construct(User $user, Session $session)
+    public function __construct(UserRepository $userRepository, Session $session)
     {
-        $this->user = $user;
+        $this->userRepository = $userRepository;
         $this->session = $session;
     }
 
@@ -50,18 +51,14 @@ class BasicAuth implements Auth
     }
 
     /**
-     * @param array     $credentials
+     * @param User $user
      * @param bool|null $callback
-     * @return bool
+     * @internal param array $credentials
+     * @return mixed
      */
-    public function register(array $credentials, bool $callback = null)
+    public function register(User $user, bool $callback = null)
     {
-        try {
-            $this->user->create($credentials['email'], $credentials['password'], $credentials['isManager']);
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
+        return $this->userRepository->create($user);
     }
 
     /**
@@ -72,7 +69,7 @@ class BasicAuth implements Auth
      */
     public function login(array $credentials)
     {
-        $user = $this->user->find($credentials['email']);
+        $user = $this->userRepository->findByEmail($credentials['email']);
 
         if (password_verify($credentials['password'], $user->password)) {
             $this->session->set('user', $user);

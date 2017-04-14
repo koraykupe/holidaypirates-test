@@ -28,7 +28,7 @@ class JobEntity extends SpotEntity
             'email'        => ['type' => 'string', 'required' => true],
             'status'       => ['type' => 'boolean', 'default' => 0, 'required' => true],
             'user_id'      => ['type' => 'integer', 'required' => true],
-            'created_at'   => ['type' => 'datetime', 'value' => new \DateTime()]
+            'created_at'   => ['type' => 'datetime', 'default' => new \DateTime()]
         ];
     }
 }

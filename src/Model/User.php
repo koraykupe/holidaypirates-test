@@ -1,58 +1,111 @@
 <?php
-
 namespace JobBoard\Model;
 
-use JobBoard\DB\Connection;
+use JobBoard\Observer\Observer;
+use JobBoard\Observer\Subject;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-/**
- * Class User
- *
- * @package JobBoard\Model
- */
-class User extends Connection
+class User implements Subject
 {
+    public $id;
+    public $email;
+    public $password;
+    public $isManager;
+
     /**
-     * @var \Spot\Mapper
+     * @var array
      */
-    protected $mapper;
+    protected $observers = [];
 
     /**
      * User constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->mapper = $this->connection->mapper('JobBoard\Model\Entity\UserEntity');
-    }
-
-    /**
      * @param $email
      * @param $password
-     * @return bool
+     * @param $isManager
      */
-    public function find($email, $password = null)
+    public function __construct($email, $password, bool $isManager = false)
     {
-        $data['email'] = $email;
-        if ($password) {
-            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
-        }
-        return $this->mapper->first($data);
+        $this->email = $email;
+        $this->password = $password;
+        $this->isManager = (int)$isManager;
     }
 
     /**
-     * @param string $email
-     * @param string $password
-     * @param bool   $isManager
-     * @return object
+     * Validate input data
+     *
+     * @param ClassMetadata $metadata
      */
-    public function create(string $email, string $password, bool $isManager = false)
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
-        return $this->mapper->create(
-            [
-                'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT),
-                'is_manager' => (int)$isManager
-            ]
+        // Email
+        $metadata->addPropertyConstraint(
+            'email',
+            new NotBlank(
+                array(
+                'message' => 'Email is required.',
+                )
+            )
         );
+        // Password
+        $metadata->addPropertyConstraint(
+            'password',
+            new Length(
+                array(
+                'min'        => 5,
+                'max'        => 20,
+                'minMessage' => 'Password must be at least {{ limit }} characters long',
+                'maxMessage' => 'Password cannot be longer than {{ limit }} characters',
+                )
+            )
+        );
+
+        $metadata->addPropertyConstraint(
+            'email',
+            new Email(
+                array(
+                'message' => 'The email {{ value }} is not a valid email.',
+                'checkMX' => false,
+                )
+            )
+        );
+        $metadata->addPropertyConstraint(
+            'description',
+            new Length(
+                array(
+                'max'        => 255,
+                'maxMessage' => 'Job description cannot be longer than {{ limit }} characters',
+                )
+            )
+        );
+    }
+
+    /**
+     * @param Observer $observer
+     * @return $this
+     */
+    public function attach(Observer $observer)
+    {
+        $this->observers[] = $observer;
+        return $this;
+    }
+
+    /**
+     * @param $index
+     * @return bool
+     */
+    public function detach($index)
+    {
+        unset($this->observers[$index]);
+        return true;
+    }
+
+    public function notify()
+    {
+        foreach ($this->observers as $observer) {
+            $observer->handle();
+        }
     }
 }
