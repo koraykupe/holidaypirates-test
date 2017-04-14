@@ -6,18 +6,39 @@ use Doctrine\DBAL\DBALException;
 use JobBoard\DB\Connection;
 use JobBoard\Model\User;
 
+/**
+ * Class DbalUserRepository
+ * @package JobBoard\Repositories
+ */
 class DbalUserRepository implements UserRepository
 {
+    /**
+     * @var Connection
+     */
     protected $connection;
+    /**
+     * @var mixed
+     */
     protected $queryBuilder;
+    /**
+     * @var string
+     */
     private static $table = 'users';
 
+    /**
+     * DbalUserRepository constructor.
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
         $this->queryBuilder = $this->connection->createQueryBuilder();
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findById(int $id)
     {
         return $this->queryBuilder
@@ -27,6 +48,10 @@ class DbalUserRepository implements UserRepository
             ->setParameter(0, $id);
     }
 
+    /**
+     * @param string $email
+     * @return object
+     */
     public function findByEmail(string $email)
     {
         $query = $this->queryBuilder
@@ -39,6 +64,10 @@ class DbalUserRepository implements UserRepository
         return (object)$query->execute()->fetch();
     }
 
+    /**
+     * @param User $model
+     * @return object
+     */
     public function create(User $model)
     {
         $query = $this->queryBuilder->insert(self::$table)->values(
@@ -55,11 +84,14 @@ class DbalUserRepository implements UserRepository
         return (object)$query->execute();
     }
 
-    public function update(User $model)
-    {
-        // TODO: Implement update() method.
-    }
-
+    /**
+     * @param string $select
+     * @param string $orderBy
+     * @param string $dir
+     * @param int $offset
+     * @param null $limit
+     * @return object
+     */
     public function getAll($select = '*', $orderBy = 'id', $dir = 'ASC', $offset = 0, $limit = null)
     {
         $query = $this->queryBuilder
@@ -72,6 +104,14 @@ class DbalUserRepository implements UserRepository
         return (object)$query->execute()->fetchAll();
     }
 
+    /**
+     * @param string $select
+     * @param string $orderBy
+     * @param string $dir
+     * @param int $offset
+     * @param null $limit
+     * @return object
+     */
     public function getAllModerators($select = '*', $orderBy = 'id', $dir = 'ASC', $offset = 0, $limit = null)
     {
         $query = $this->queryBuilder

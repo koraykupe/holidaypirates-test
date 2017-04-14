@@ -5,18 +5,39 @@ namespace JobBoard\Repositories;
 use JobBoard\DB\Connection;
 use JobBoard\Model\Job;
 
+/**
+ * Class DbalJobRepository
+ * @package JobBoard\Repositories
+ */
 class DbalJobRepository implements JobRepository
 {
+    /**
+     * @var Connection
+     */
     protected $connection;
+    /**
+     * @var mixed
+     */
     protected $queryBuilder;
+    /**
+     * @var string
+     */
     private static $table = 'jobs';
 
+    /**
+     * DbalJobRepository constructor.
+     * @param Connection $connection
+     */
     public function __construct(Connection $connection)
     {
         $this->connection = $connection;
         $this->queryBuilder = $this->connection->createQueryBuilder();
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findById(int $id)
     {
         return $this->queryBuilder
@@ -25,6 +46,10 @@ class DbalJobRepository implements JobRepository
             ->setParameter(0, $id);
     }
 
+    /**
+     * @param Job $model
+     * @return Job
+     */
     public function create(Job $model)
     {
         $query = $this->queryBuilder->insert(self::$table)
@@ -47,16 +72,10 @@ class DbalJobRepository implements JobRepository
         return $model;
     }
 
-    public function update(Job $model)
-    {
-        // TODO: Implement update() method.
-    }
-
-    public function getAll()
-    {
-        // TODO: Implement getAll() method.
-    }
-
+    /**
+     * @param int $userId
+     * @return int
+     */
     public function countUsersJobPosts(int $userId) :int
     {
         $query = $this->queryBuilder
@@ -69,6 +88,11 @@ class DbalJobRepository implements JobRepository
 
     }
 
+    /**
+     * @param int $id
+     * @param int $status
+     * @return bool
+     */
     public function updateStatus(int $id, int $status) :bool
     {
         $query = $this->queryBuilder
