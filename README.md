@@ -42,7 +42,7 @@ composer install
 
 ## Running the tests
 
-run `phpunit`
+run `phpunit tests`
 
 ### And coding style tests
 
