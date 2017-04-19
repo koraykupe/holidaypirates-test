@@ -67,7 +67,7 @@ class BasicAuth implements Auth
      * @param array $credentials
      * @return bool
      * @internal param $user
-     * @internal param bool $remember
+     * @internal param $remember
      */
     public function login(array $credentials)
     {
@@ -75,7 +75,7 @@ class BasicAuth implements Auth
 
         if (password_verify($credentials['password'], $user->password)) {
             $this->session->set('user', $user);
-            return true;
+            return $user;
         } else {
             $this->logout();
         }

@@ -18,6 +18,13 @@ interface UserRepository
     public function findById(int $id);
 
     /**
+     * Find user by email
+     * @param string $email
+     * @return mixed
+     */
+    public function findByEmail(string $email);
+
+    /**
      * Get user object and create a database record
      * @param User $model
      * @return mixed
