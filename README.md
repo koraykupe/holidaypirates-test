@@ -64,7 +64,7 @@ You can use Codesniffer to check the code against some standards.
 * Error codes and memorable functions for errors / responses 
 * Redirect for controllers and after successful login
 * Don't delete whole input data if there is a validation error
-* Command bus pattern for controllers
+* Command bus pattern for simpler controllers
 * Logging
 * Cache
 * Type casting for repositories
@@ -73,6 +73,7 @@ You can use Codesniffer to check the code against some standards.
 * Create a common class for email events
 * Different class for managers
 * Better authorization
+* Ability to test repositories
 
 ## Built With
 
