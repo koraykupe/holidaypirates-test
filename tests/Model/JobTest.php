@@ -10,5 +10,6 @@ class JobTest extends TestCase
     {
         $job = new \JobBoard\Model\Job("PHP Developer", "PHP developer job description.", "koray@koraykupe.com", 1, 1);
         $this->assertInstanceOf(\JobBoard\Model\Job::class, $job);
+        $this->assertTrue($job->email, "koray@koraykupe.com");
     }
 }
