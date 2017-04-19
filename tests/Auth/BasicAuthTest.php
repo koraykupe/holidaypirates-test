@@ -25,7 +25,10 @@ class BasicAuthTest extends TestCase
     {
         $auth = new \JobBoard\Auth\BasicAuth($this->userRepository, $this->session);
 
-        $userMock = (object) ["id" => 1, "email" => "koray@koraykupe.com", "password" => password_hash('123456', PASSWORD_DEFAULT)];
+        $userMock = new stdClass();
+        $userMock->id = 1;
+        $userMock->email = "koray@koraykupe.com";
+        $userMock->password = password_hash('123456', PASSWORD_DEFAULT);
 
         $this->userRepository->expects($this->once())
             ->method("findByEmail")
